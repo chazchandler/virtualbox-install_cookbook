@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: virtualbox
+# Cookbook Name:: virtualbox-install
 # Recipe:: default
 #
 # Copyright 2011-2013, Joshua Timberman
+# Copyright 2018, Kyle McGovern
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,8 +46,8 @@ when 'windows'
 when 'debian'
 
   apt_repository 'oracle-virtualbox' do
-    uri 'http://download.virtualbox.org/virtualbox/debian'
-    key 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
+    uri node['virtualbox']['url']
+    key node['virtualbox']['gpg_key']
     distribution node['lsb']['codename']
     components ['contrib']
   end
@@ -58,9 +59,9 @@ when 'rhel', 'fedora'
 
   yum_repository 'oracle-virtualbox' do
     description "#{node['platform_family']} $releasever - $basearch - Virtualbox" 
-    baseurl "http://download.virtualbox.org/virtualbox/rpm/#{node['platform_family']}/$releasever/$basearch"
+    baseurl node['virtualbox']['url']
+    gpgkey node['virtualbox']['gpg_key']
     gpgcheck true
-    gpgkey 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc'
   end
 
   package "VirtualBox-#{node['virtualbox']['version']}"

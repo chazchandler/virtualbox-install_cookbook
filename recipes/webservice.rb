@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: virtualbox
+# Cookbook Name:: virtualbox-install
 # Recipe:: webservice
 #
 # Copyright 2012, Ringo De Smet

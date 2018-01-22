@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'virtualbox::default' do
-  context 'on Centos 6.4 x86_64 with virtualbox 4.3' do
+  context 'on Centos 6.4 x86_64 with virtualbox 5.2' do
     let(:chef_run) do
       ChefSpec::Runner.new(platform: 'centos', version: 6.4, step_into: ['yum_repository']) do |node|
         node.automatic['kernel']['machine'] = 'x86_64'
-        node.default['virtualbox']['version'] = 4.3 
+        node.default['virtualbox']['version'] = 5.2 
       end.converge(described_recipe)
     end
 
