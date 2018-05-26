@@ -23,8 +23,12 @@ default['virtualbox']['webportal']['versions'] = {
     '4.0' => '7',
     '4.1' => '9',
     '4.2' => '8',
-    '4.3' => '0'
+    '4.3' => '0',
+    '5.0' => '5',
+    '5.2' => '0'
 }
 
-default['virtualbox']['webportal']['installdir'] = "/var/www"
+#default['virtualbox']['webportal']['source'] = 'http://downloads.sourceforge.net/project/phpvirtualbox'
+default['virtualbox']['webportal']['source'] = 'http://artifacts.dmz.chaznet.local/virtualbox'
+default['virtualbox']['webportal']['installdir'] = "/var/www/html"
 default['virtualbox']['webportal']['enable-apache2-default-site'] = false

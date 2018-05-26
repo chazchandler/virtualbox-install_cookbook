@@ -20,17 +20,35 @@
 # For the user to be created successfully, a data bag item with the MD5 hashed password
 # needs to be added.
 
-include_recipe "apt"
+chef_gem 'chef-vault' do
+  compile_time true if respond_to?(:compile_time)
+end
 
-package "build-essential"
+require 'chef-vault'
+
+platform      = node[:platform]
+major_minor_v = node[:platform_version].to_f
+major_v       = node[:platform_version].to_i
+
+include_recipe 'chaznet-base::development'
+
+case platform
+when "redhat", "fedora", "centos"
+  # nothing yet
+when "debian", "ubuntu"
+  include_recipe "apt"
+end
+
 gem_package "ruby-shadow"
 
+item = ChefVault::Item.load("passwords", "virtualbox")
+
 user 'virtualbox-user' do
-  username node['virtualbox']['user']
-  gid node['virtualbox']['group']
-  password data_bag_item('passwords','virtualbox-user')['password']
-  home "/home/#{node['virtualbox']['user']}"
-  shell "/bin/bash"
-  system true
+  username    node['virtualbox']['user']
+  gid         node['virtualbox']['group']
+  password    item['password']
+  home        "/home/#{node['virtualbox']['user']}"
+  shell       "/bin/bash"
+  system      true
   manage_home true
 end

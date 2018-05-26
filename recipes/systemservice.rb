@@ -17,12 +17,9 @@
 # limitations under the License.
 #
 
-include_recipe "virtualbox::user"
+include_recipe "virtualbox-install::user"
 
-cookbook_file "/etc/init.d/vboxcontrol" do
-  source "vboxcontrol"
-  mode "0755"
-end
+platform = node[:platform]
 
 directory "/etc/virtualbox" do
   mode "0755"
@@ -51,6 +48,26 @@ template "/etc/virtualbox/config" do
   )
 end
 
-service "vboxcontrol" do
-  action [:enable, :start]
+case platform
+when 'debian', 'ubuntu'
+
+  cookbook_file "/etc/init.d/vboxcontrol" do
+    source "vboxcontrol"
+    mode "0755"
+  end
+
+  service "vboxcontrol" do
+    action [:enable, :start]
+  end
+
+when 'redhat', 'fedora', 'centos'
+
+  service 'vboxdrv' do
+    action [:enable, :start]
+  end
+
+  service 'vboxautostart-service' do
+    action [:enable, :start]
+  end
+
 end

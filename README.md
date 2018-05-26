@@ -149,7 +149,7 @@ it, such as:
         "url" => "http://url.to/your/vbox.pkg",
         "version" => "4.2"
       })
-    run_list("recipe[virtualbox]")
+    run_list("recipe[virtualbox-install]")
 
 Contributions
 =============

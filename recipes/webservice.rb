@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe "virtualbox::user"
+include_recipe "virtualbox-install::user"
 
 template "/etc/vbox/vbox.cfg" do
   source "vbox.cfg.erb"
